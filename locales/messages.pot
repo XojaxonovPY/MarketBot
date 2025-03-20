@@ -1,0 +1,87 @@
+# Translations template for PROJECT.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-03-20 20:14+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.13.1\n"
+
+#: bot/handlera/languages.py:15
+msgid "◀️ Orqaga"
+msgstr ""
+
+#: bot/handlera/languages.py:18
+msgid "Tilni tanlang:"
+msgstr ""
+
+#: bot/handlera/languages.py:33 bot/handlera/main_handler.py:22
+msgid "🏬 Mahsulotlar bolimi"
+msgstr ""
+
+#: bot/handlera/languages.py:33 bot/handlera/main_handler.py:22
+msgid "📦 Haridlar"
+msgstr ""
+
+#: bot/handlera/languages.py:33 bot/handlera/main_handler.py:22
+msgid "🇷🇺 🇺🇿 Tillar"
+msgstr ""
+
+#: bot/handlera/languages.py:33 bot/handlera/main_handler.py:22
+msgid "📞 Aloqa"
+msgstr ""
+
+#: bot/handlera/languages.py:35 bot/handlera/main_handler.py:24
+msgid "✅ Hush kelibsiz!"
+msgstr ""
+
+#: bot/handlera/main_handler.py:41
+msgid "🔎Qidiruv"
+msgstr ""
+
+#: bot/handlera/main_handler.py:43
+msgid "🔎 Mahsulotlar qidiruvi"
+msgstr ""
+
+#: bot/handlera/main_handler.py:44
+msgid "✅ Asosiy bolim:"
+msgstr ""
+
+#: bot/handlera/main_section.py:27
+msgid "✅ Mahsulotlarni tanlang:"
+msgstr ""
+
+#: bot/handlera/main_section.py:36
+msgid "✅ Bunday mahsulot bizda yoq!"
+msgstr ""
+
+#: bot/handlera/main_section.py:42
+msgid "✅ Nechta olmoqchisiz:"
+msgstr ""
+
+#: bot/handlera/main_section.py:55
+msgid "◀️Mahsulotlarga"
+msgstr ""
+
+#: bot/handlera/main_section.py:57
+msgid "❌ Iltimos, mahsulot sonini butun son shaklida kiriting!"
+msgstr ""
+
+#: bot/handlera/main_section.py:61
+msgid "❌ Buncha mahsulot bizda yo‘q!"
+msgstr ""
+
+#: bot/handlera/main_section.py:74
+msgid "✅ Yana mahsulot harit qilasizmi!"
+msgstr ""
+

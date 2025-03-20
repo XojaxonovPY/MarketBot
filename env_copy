@@ -1,0 +1,11 @@
+BOT_TOKEN=
+PAYMENT_CLICK_TOKEN=
+DP_NAME=
+DP_USER=
+DP_PASSWORD=
+DP_HOST=
+DP_PORT=
+DP_ASYNC_URL=postgresql+asyncpg://db_user:password@host:port/db_name
+DP_SYNC_URL=postgresql+psycopg2://db_user:password@host:port/db_name
+ADMIN_USERNAME=
+ADMIN_PASSWORD=
