@@ -5,10 +5,7 @@ async def save_user(**kwargs):
     if not check:
         await User.create(**kwargs)
 
-async def get_products(category_id:str):
-    s=''.join([i for i in category_id if i.isdigit()])
-    products=await Product.gets(Product.category_id,int(s),Product.name)
-    return products
+
 
 async def get_orders(product_name:str):
     price = await Product.gets(Product.name, product_name,Product.price)

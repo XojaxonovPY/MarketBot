@@ -65,8 +65,8 @@ class AbstractClass:
         return result
 
     @classmethod
-    async def gets(cls, filter_column, filter_value, *columns):
-        query = select(*columns).where(filter_column == filter_value)
+    async def gets(cls, filter_column, filter_value):
+        query = select(cls).where(filter_column == filter_value)
         result = await db.execute(query)
         rows = result.all()
         if not rows:

@@ -1,6 +1,7 @@
 from aiogram import F
 from aiogram.fsm.context import FSMContext
-from aiogram.types import CallbackQuery, InlineQuery, InlineQueryResultArticle, InputTextMessageContent
+from aiogram.types import CallbackQuery, InlineQuery, InlineQueryResultArticle, InputTextMessageContent, \
+    InlineKeyboardButton
 from aiogram import Router
 from bot.buttons.reply import reply_button_builder
 from aiogram.utils.i18n import gettext as _
@@ -8,7 +9,7 @@ from aiogram.types import Message, LabeledPrice, PreCheckoutQuery
 
 from db.model import Product
 from utils.env_data import BotConfig
-from bot.functions import get_products, get_orders, orders_save, search_products
+from bot.functions import   orders_save, search_products
 from bot.states import States
 
 
@@ -17,30 +18,17 @@ PAYMENT_CLICK_TOKEN = BotConfig.PAYMENT_CLICK_TOKEN
 
 
 @main_section.callback_query(F.data.startswith("category_"))
-async def category_handler(callback : CallbackQuery,state:FSMContext):
-    call=callback.data
-    product=await get_products(call)
-    product.append('◀️Mahsulotlarga')
-    markup=await reply_button_builder(product,[2]*(len(product) // 2))
-    await state.update_data(product=product)
-    await state.set_state(States.products)
+async def category_handler(callback : CallbackQuery):
+    category_id=int(callback.data.split('_')[1])
+    products:list[Product]=await Product.gets(Product.category_id,category_id)
+    buttons=[InlineKeyboardButton(text=i.name,callback_data=f'product_{i.id}') for i in products]
+    markup=await reply_button_builder(buttons,[2]*(len(buttons) // 2))
     await callback.message.answer(text=_('✅ Mahsulotlarni tanlang:'),reply_markup=markup)
 
 
 @main_section.message(States.products)
 async def product_handler(message:Message,state:FSMContext):
-    product=message.text
-    data=await state.get_data()
-    check_product=data.get('product')
-    if product not in check_product:
-        await message.answer(text=_('✅ Bunday mahsulot bizda yoq!'))
-        return
-    price,count,image,id_=await get_orders(product)
-    await state.update_data(price=price,count=count,product_name=product,product_id=id_)
-    await message.answer_photo(photo=image,caption=f'narxi:{price}\nsoni:{count}')
-    await state.set_state(States.orders)
-    await message.answer(text=_('✅ Nechta olmoqchisiz:'))
-
+    pass
 
 @main_section.message(States.orders)
 async def order_handler(message: Message, state: FSMContext):

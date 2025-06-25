@@ -1,4 +1,3 @@
-
 import asyncio
 import logging
 import sys
@@ -12,7 +11,9 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.utils.i18n import I18n, FSMI18nMiddleware
 from utils.env_data import BotConfig
+
 TOKEN = BotConfig.TOKEN
+
 
 # from db.model import db
 # db.init()
@@ -21,7 +22,7 @@ TOKEN = BotConfig.TOKEN
 # print(bcrypt.hashpw("3".encode(), salt=bcrypt.gensalt()))
 
 async def set_bot_commands(bot: Bot):
-    commands = [BotCommand(command="/start", description="Starting bot."),]
+    commands = [BotCommand(command="/start", description="Starting bot."), ]
     await bot.set_my_commands(commands=commands)
 
 
