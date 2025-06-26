@@ -47,7 +47,8 @@ class Order(CreatedModel):
 
 class Channel(CreatedModel):
     link: Mapped[str] = mapped_column(String)
-    channel_id: Mapped[int] = mapped_column(BIGINT)
+    name: Mapped[str] = mapped_column(String,nullable=True)
+    channel_id: Mapped[int] = mapped_column(BIGINT,nullable=True)
 
 
 metadata = Base.metadata

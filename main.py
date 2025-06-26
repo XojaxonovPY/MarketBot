@@ -22,7 +22,10 @@ TOKEN = BotConfig.TOKEN
 # print(bcrypt.hashpw("3".encode(), salt=bcrypt.gensalt()))
 
 async def set_bot_commands(bot: Bot):
-    commands = [BotCommand(command="/start", description="Starting bot."), ]
+    commands = [
+        BotCommand(command="/start", description="Starting bot."),
+        BotCommand(command="/channel", description="Send channels id")
+    ]
     await bot.set_my_commands(commands=commands)
 
 

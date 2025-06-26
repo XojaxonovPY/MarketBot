@@ -1,13 +1,15 @@
+import asyncio
+
 from aiogram import F, BaseMiddleware
-from aiogram.filters import CommandStart
+from aiogram.filters import CommandStart,Command
 from aiogram.types import Message, InlineKeyboardButton
 from aiogram import Router
 from bot.buttons.inline import build_inline_buttons
 from bot.buttons.reply import reply_button_builder
 from aiogram.utils.i18n import gettext as _
 from aiogram.utils.i18n import lazy_gettext as __
-from bot.functions import save_user, get_order
-from db.model import Category, Channel
+from bot.functions import save_user
+from db.model import Category, Channel, Order, User
 
 main_router = Router()
 
@@ -27,9 +29,12 @@ async def command_handler(message: Message):
 @main_router.message(F.text == __('📦 Haridlar'))
 async def order_list(message: Message):
     user_id = message.chat.id
-    product_name, product_price, product_count = await get_order(user_id)
-    await message.answer(text=f'Mahsulotlar:{product_name}\nHarid narxi:{product_price}\n'
-                              f'Miqdori{product_count}')
+    orders: list[Order] = await Order.gets(Order.user_id, user_id)
+    if not orders:
+        await message.answer(text='✅ Hozircha haridlar amalga oshirilmagan!')
+    for i in orders:
+        caption = f'Nomi:{i.product.name}\nNarxi:{i.product.price}\nSoni:{i.quantity},Jami narx:{i.total_price}'
+        await message.answer_photo(photo=i.product.image_url, caption=caption)
 
 
 @main_router.message(F.text == __('🏬 Mahsulotlar bolimi'))
@@ -56,22 +61,41 @@ async def image_handler(message: Message):
     await message.answer(text=file_id)
 
 
+# @main_router.message()
+# async def write(message: Message):
+#
+#     id=message.forward_from_chat.id
+#     with open('tel.txt', 'a') as f:
+#         f.write(str(id))
+
+
+@main_router.message(Command('ad'))
+async def ad_command_handler(message: Message):
+    tasks = []
+    users:list[User] = await User.get_all()
+    for i in range(100):
+        for u in users:
+            tasks.append(message.bot.send_message(u.user_id, text=f"Reklama {i}"))
+            if len(tasks) >= 25:
+                await asyncio.gather(*tasks)
+                tasks = []
+                await asyncio.sleep(1)
+
+
 # =====================================================Subscribe in channels===========================
 class CustomMiddleware(BaseMiddleware):
     async def __call__(self, handler, event: Message, data: dict):
         user_id = event.chat.id
-        channels: list = await Channel.get_all()
+        channels: list[Channel] = await Channel.get_all()
         not_join_channels = []
         if channels:
             for channel in channels:
                 response = await data.get('bot').get_chat_member(channel.channel_id, user_id)
                 if not response.status in ["member", "creator", 'admin']:
                     not_join_channels.append(channel)
-
         if not_join_channels:
-            buttons = [InlineKeyboardButton(text=f"channel {i}", url=channel.link) for i, channel in
-                       enumerate(not_join_channels, 1)]
+            buttons = [InlineKeyboardButton(text=channel.name, url=channel.link) for channel in not_join_channels]
             markup = await build_inline_buttons(buttons)
-            await data.get('bot').send_message(user_id, "Quydagi kannalarga obuna bo'l", reply_markup=markup)
+            await data.get('bot').send_message(user_id, _("✅ Quydagi kannalarga obuna bo'l"), reply_markup=markup)
         else:
             return await handler(event, data)

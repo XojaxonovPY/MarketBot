@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-03-20 20:14+0300\n"
+"POT-Creation-Date: 2025-06-26 17:40+0300\n"
 "PO-Revision-Date: 2025-03-20 14:00+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: uz\n"
@@ -18,6 +18,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.13.1\n"
 
+#: bot/handlera/admin.py:39
+msgid "Kanaldni biror habarini yuboring va kanalga botni admin qiling!"
+msgstr ""
+
 #: bot/handlera/languages.py:15
 msgid "◀️ Orqaga"
 msgstr ""
@@ -26,66 +30,70 @@ msgstr ""
 msgid "Tilni tanlang:"
 msgstr ""
 
-#: bot/handlera/languages.py:33 bot/handlera/main_handler.py:22
+#: bot/handlera/languages.py:33 bot/handlera/main_handler.py:24
 msgid "🏬 Mahsulotlar bolimi"
 msgstr ""
 
-#: bot/handlera/languages.py:33 bot/handlera/main_handler.py:22
+#: bot/handlera/languages.py:33 bot/handlera/main_handler.py:24
 msgid "📦 Haridlar"
 msgstr ""
 
-#: bot/handlera/languages.py:33 bot/handlera/main_handler.py:22
+#: bot/handlera/languages.py:33 bot/handlera/main_handler.py:24
 msgid "🇷🇺 🇺🇿 Tillar"
 msgstr ""
 
-#: bot/handlera/languages.py:33 bot/handlera/main_handler.py:22
+#: bot/handlera/languages.py:33 bot/handlera/main_handler.py:24
 msgid "📞 Aloqa"
 msgstr ""
 
-#: bot/handlera/languages.py:35 bot/handlera/main_handler.py:24
+#: bot/handlera/languages.py:35 bot/handlera/main_handler.py:26
 msgid "✅ Hush kelibsiz!"
 msgstr ""
 
-#: bot/handlera/main_handler.py:41
+#: bot/handlera/main_handler.py:47
 msgid "🔎Qidiruv"
 msgstr ""
 
-#: bot/handlera/main_handler.py:43
+#: bot/handlera/main_handler.py:49
 msgid "🔎 Mahsulotlar qidiruvi"
 msgstr ""
 
-#: bot/handlera/main_handler.py:44
+#: bot/handlera/main_handler.py:50
 msgid "✅ Asosiy bolim:"
 msgstr ""
 
-#: bot/handlera/main_section.py:27
+#: bot/handlera/main_handler.py:99
+msgid "✅ Quydagi kannalarga obuna bo'l"
+msgstr ""
+
+#: bot/handlera/main_section.py:23
 msgid "✅ Mahsulotlarni tanlang:"
 msgstr ""
 
 #: bot/handlera/main_section.py:36
-msgid "✅ Bunday mahsulot bizda yoq!"
+msgid "✅ Qancha olmoqchisiz:"
 msgstr ""
 
-#: bot/handlera/main_section.py:42
-msgid "✅ Nechta olmoqchisiz:"
-msgstr ""
-
-#: bot/handlera/main_section.py:55
+#: bot/handlera/main_section.py:44
 msgid "◀️Mahsulotlarga"
 msgstr ""
 
-#: bot/handlera/main_section.py:57
-msgid "❌ Iltimos, mahsulot sonini butun son shaklida kiriting!"
-msgstr ""
-
-#: bot/handlera/main_section.py:61
-msgid "❌ Buncha mahsulot bizda yo‘q!"
-msgstr ""
-
-#: bot/handlera/main_section.py:74
+#: bot/handlera/main_section.py:58
 msgid "✅ Yana mahsulot harit qilasizmi!"
 msgstr ""
 
 #~ msgid "🔎Search"
+#~ msgstr ""
+
+#~ msgid "✅ Bunday mahsulot bizda yoq!"
+#~ msgstr ""
+
+#~ msgid "✅ Nechta olmoqchisiz:"
+#~ msgstr ""
+
+#~ msgid "❌ Iltimos, mahsulot sonini butun son shaklida kiriting!"
+#~ msgstr ""
+
+#~ msgid "❌ Buncha mahsulot bizda yo‘q!"
 #~ msgstr ""
 
