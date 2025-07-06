@@ -6,7 +6,9 @@ from aiohttp import web
 from aiogram import Bot, Dispatcher, types
 from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
 
-TOKEN = "YOUR_BOT_TOKEN"
+from utils.env_data import BotConfig
+
+TOKEN = BotConfig.TOKEN
 WEBHOOK_PATH = "/webhook"
 WEBHOOK_URL = "https://marketbot-jqcl.onrender.com" + WEBHOOK_PATH
 
