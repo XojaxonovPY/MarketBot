@@ -18,7 +18,7 @@ TOKEN = BotConfig.TOKEN
 
 async def on_startup(bot: Bot):
     # DB yaratish (birinchi run ichida)
-    await db.init()
+    db.init()
     await db.create_all()
 
     # Bot komandalarini qo‘shish
