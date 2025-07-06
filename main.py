@@ -8,7 +8,7 @@ from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_applicati
 
 TOKEN = "YOUR_BOT_TOKEN"
 WEBHOOK_PATH = "/webhook"
-WEBHOOK_URL = "https://your-app-name.onrender.com" + WEBHOOK_PATH
+WEBHOOK_URL = "https://marketbot-jqcl.onrender.com" + WEBHOOK_PATH
 
 
 async def on_startup(bot: Bot):
