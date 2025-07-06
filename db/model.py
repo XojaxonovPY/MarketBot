@@ -57,7 +57,7 @@ class Order(CreatedModel):
     product_id: Mapped[int] = mapped_column(ForeignKey('products.id', ondelete='CASCADE'))
     user_id: Mapped[int] = mapped_column(ForeignKey('users.user_id', ondelete='CASCADE'))
     quantity: Mapped[int] = mapped_column(Integer, default=1, nullable=False)
-    status: Mapped[str] = mapped_column(SQLEnum(StatusType,name='status_type'), default=StatusType.PENDING,nullable=True)
+    status: Mapped[str] = mapped_column(SQLEnum(StatusType,name='status_type',create_constraint=True), default=StatusType.PENDING,nullable=True)
     total_price: Mapped[float] = mapped_column(Float)
     product = relationship('Product', back_populates='orders', lazy='selectin')
     user = relationship('User', back_populates='orders', lazy='selectin')

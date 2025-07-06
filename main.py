@@ -15,11 +15,11 @@ from utils.env_data import BotConfig
 TOKEN = BotConfig.TOKEN
 
 
-# from db.model import db
-# db.init()
-# asyncio.run(db.create_all())
-# import bcrypt
-# print(bcrypt.hashpw("3".encode(), salt=bcrypt.gensalt()))
+from db.model import db
+db.init()
+asyncio.run(db.create_all())
+import bcrypt
+print(bcrypt.hashpw("3".encode(), salt=bcrypt.gensalt()))
 
 async def set_bot_commands(bot: Bot):
     commands = [
