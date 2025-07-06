@@ -4,6 +4,7 @@ from utils.settings import Env_path
 load_dotenv(Env_path)
 class BotConfig:
     TOKEN=getenv('BOT_TOKEN')
+    WEBHOOK_URL = getenv("WEBHOOK_URL")
     PAYMENT_CLICK_TOKEN=getenv('PAYMENT_CLICK_TOKEN')
 class DBConfig:
     DP_NAME=getenv('DP_NAME')
