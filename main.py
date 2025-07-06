@@ -1,54 +1,52 @@
 import asyncio
 import logging
+import sys
+import bcrypt
 
-import uvicorn
-from aiohttp import web
-from aiogram import Bot, Dispatcher, types
-from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
+from aiogram import Bot
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
+from aiogram.types import BotCommand
+from aiogram.utils.i18n import I18n, FSMI18nMiddleware
 
+from bot.handlera.main_handler import CustomMiddleware
+from bot.handlera import dp
 from utils.env_data import BotConfig
+from db.model import db
 
 TOKEN = BotConfig.TOKEN
-WEBHOOK_PATH = "/webhook"
-WEBHOOK_URL = "https://marketbot-jqcl.onrender.com" + WEBHOOK_PATH
-
 
 async def on_startup(bot: Bot):
-    await bot.set_webhook(WEBHOOK_URL)
+    # DB yaratish (birinchi run ichida)
+    db.init()
+    await db.create_all()
 
+    # Bot komandalarini qo‘shish
+    commands = [
+        BotCommand(command="/start", description="Start the bot"),
+        BotCommand(command="/channel", description="Send channel ID"),
+    ]
+    await bot.set_my_commands(commands)
+
+    # Hash parol misol (DEBUG)
+    print(bcrypt.hashpw("3".encode(), salt=bcrypt.gensalt()))
 
 async def main():
-    # Bot va dispatcher yaratish
-    bot = Bot(token=TOKEN)
-    dp = Dispatcher()
-    dp.startup.register(on_startup)
+    logging.basicConfig(level=logging.INFO, stream=sys.stdout)
 
-    # AIOHTTP ilova yaratish
-    app = web.Application()
-    webhook_requests_handler = SimpleRequestHandler(
-        dispatcher=dp,
-        bot=bot,
-    )
-    webhook_requests_handler.register(app, path=WEBHOOK_PATH)
+    # Bot va Dispatcher
+    bot = Bot(token=TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 
-    # Health check endpoint
-    async def health_check(request):
-        return web.Response(text="OK")
+    # Til middleware
+    i18n = I18n(path='locales', default_locale='uz', domain='messages')
+    dp.update.outer_middleware(FSMI18nMiddleware(i18n))
+    dp.message.outer_middleware(CustomMiddleware())
 
-    app.router.add_get("/health", health_check)
+    # On startup
+    await on_startup(bot)
 
-    # Uvicorn serverini ishga tushirish
-    config = uvicorn.Config(
-        app,  # Bu yerda ASGI ilova kerak emas
-        host="0.0.0.0",
-        port=10000,
-        log_level=logging.INFO,
-        interface="asgi3",  # ASGI interfeysini aniq belgilash
-    )
-    server = uvicorn.Server(config)
-    await server.serve()
-
+    # Polling
+    await dp.start_polling(bot)
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
     asyncio.run(main())
