@@ -27,6 +27,11 @@ class User(CreatedModel):
 
     orders = relationship('Order', back_populates='user', lazy='selectin')
 
+    async def save_user(**kwargs):
+        check = await User.get(User.user_id, kwargs.get('user_id'))
+        if not check:
+            await User.create(**kwargs)
+
 
 class Category(CreatedModel):
     __tablename__ = 'categories'
