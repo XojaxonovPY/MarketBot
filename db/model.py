@@ -1,14 +1,9 @@
 from enum import Enum
 
-from sqlalchemy import Text, String, BIGINT, DECIMAL, ForeignKey, Integer, Float,Enum as SQLEnum
+from sqlalchemy import Text, String, BIGINT, DECIMAL, ForeignKey, Integer, Float, Enum as SQLEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from db import Base, db
 from db.utils import CreatedModel
-
-
-
-
-
 
 
 class StatusType(Enum):
@@ -17,8 +12,6 @@ class StatusType(Enum):
     CANCELLED = 'cancelled'
     DELIVERED = 'delivered'
     RETURNED = 'returned'
-
-
 
 
 class User(CreatedModel):
@@ -46,8 +39,8 @@ class Category(CreatedModel):
 class Product(CreatedModel):
     name: Mapped[str] = mapped_column(String)
     price: Mapped[float] = mapped_column(Float)
-    image_url: Mapped[str] = mapped_column(Text,nullable=True)
-    thumbnail_url: Mapped[str] = mapped_column(Text,nullable=True)
+    image_url: Mapped[str] = mapped_column(Text, nullable=True)
+    thumbnail_url: Mapped[str] = mapped_column(Text, nullable=True)
     count: Mapped[int] = mapped_column(Integer, default=1, nullable=False)
     category_id: Mapped[int] = mapped_column(ForeignKey('categories.id', ondelete='CASCADE'))
 
@@ -62,7 +55,8 @@ class Order(CreatedModel):
     product_id: Mapped[int] = mapped_column(ForeignKey('products.id', ondelete='CASCADE'))
     user_id: Mapped[int] = mapped_column(ForeignKey('users.user_id', ondelete='CASCADE'))
     quantity: Mapped[int] = mapped_column(Integer, default=1, nullable=False)
-    status: Mapped[str] = mapped_column(SQLEnum(StatusType,name='status_type',create_constraint=True), default=StatusType.PENDING,nullable=True)
+    status: Mapped[str] = mapped_column(SQLEnum(StatusType, name='status_type', create_constraint=True),
+                                        default=StatusType.PENDING, nullable=True)
     total_price: Mapped[float] = mapped_column(Float)
     product = relationship('Product', back_populates='orders', lazy='selectin')
     user = relationship('User', back_populates='orders', lazy='selectin')
@@ -70,8 +64,8 @@ class Order(CreatedModel):
 
 class Channel(CreatedModel):
     link: Mapped[str] = mapped_column(String)
-    name: Mapped[str] = mapped_column(String,nullable=True)
-    channel_id: Mapped[int] = mapped_column(BIGINT,nullable=True)
+    name: Mapped[str] = mapped_column(String, nullable=True)
+    channel_id: Mapped[int] = mapped_column(BIGINT, nullable=True)
 
 
 metadata = Base.metadata
