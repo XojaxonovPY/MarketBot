@@ -3,7 +3,7 @@ from enum import Enum
 from sqlalchemy import Text, String, BIGINT, ForeignKey, Integer, Float, Enum as SQLEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from db import Base
+from db import Base,db
 from db.utils import CreatedModel
 
 
