@@ -71,17 +71,16 @@ async def confirm_handler(message: Message, state: FSMContext):
     data = await state.get_data()
     product = data.get('product')
     if message.successful_payment:
-        total_amount = message.successful_payment.total_amount // 100
-        order_id = int(message.successful_payment.invoice_payload)
         order = {
             'product_id': product.id,
             'quantity': data.get('quantity'),
             'total_price': data.get('total_price'),
             'user_id': user_id,
         }
-        await Order.create(**order)
+        order = await Order.create(**order)
+        await Product.sub_product(product.id,order.quantity)
         await state.clear()
-        await message.answer(text=_(f"✅ To'lo'vingiz uchun raxmat 😊 \n{total_amount}\n{order_id}"))
+        await message.answer(text=_(f"✅ To'lo'vingiz uchun raxmat 😊 \n{order.total_price}\n{order.id}"))
 
 
 # ================================================Searching============================================

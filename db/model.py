@@ -3,7 +3,7 @@ from enum import Enum
 from sqlalchemy import Text, String, BIGINT, ForeignKey, Integer, Float, Enum as SQLEnum
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from db import Base,db
+from db import Base
 from db.utils import CreatedModel
 
 
@@ -21,6 +21,7 @@ class User(CreatedModel):
 
     orders = relationship('Order', back_populates='user', lazy='selectin')
 
+    @staticmethod
     async def save_user(**kwargs):
         check = await User.get(User.user_id, kwargs.get('user_id'))
         if not check:
@@ -50,6 +51,11 @@ class Product(CreatedModel):
 
     def __repr__(self):
         return f"{self.name},{self.price},{self.image_url},{self.category_id},{self.count}"
+
+    @staticmethod
+    async def sub_product(id, count):
+        product: Product = await Product.get(Product.id, id)
+        product = await Product.update(product.id, count=product.count - count)
 
 
 class Order(CreatedModel):
