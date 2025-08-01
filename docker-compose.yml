@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  bot:
+    build: .
+    image: bot
+    container_name: bc
+    restart: always
+    command: python main.py
+    depends_on:
+      - db
+  db:
+    image: postgres:alpine
+    container_name: pg4
+    restart: always
+    ports:
+      - '5435:5432'
+    environment:
+      POSTGRES_PASSWORD: 1
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  admin:
+    build: .
+    image: bot_admin
+    container_name: bot_admin_con
+    command: uvicorn web.app:app --host 0.0.0.0 --port 8008
+    ports:
+      - '8008:8008'
+
+volumes:
+  pg_data:

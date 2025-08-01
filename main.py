@@ -11,8 +11,15 @@ from aiogram.utils.i18n import I18n, FSMI18nMiddleware
 from bot.handlers import *
 from bot.handlers.main_handler import CustomMiddleware
 from utils.env_data import BotConfig
+from db import db
+from db.model import metadata
 
 TOKEN = BotConfig.TOKEN
+
+
+async def init_models():
+    async with db._engine.begin() as conn:
+        await conn.run_sync(metadata.create_all)
 
 
 async def set_bot_commands(bot: Bot):
@@ -29,6 +36,7 @@ async def main() -> None:
     dp.update.outer_middleware(FSMI18nMiddleware(i18n))
     dp.message.outer_middleware(CustomMiddleware())
     await set_bot_commands(bot)
+    await init_models()
     await dp.start_polling(bot)
 
 
