@@ -84,6 +84,10 @@ ADMIN_USERNAME=your_admin_username
 ADMIN_PASSWORD=your_admin_password
 ```
 
+## 📊 Ma’lumotlar bazasi modeli
+
+[DrawSQL’da model sxemasini ko‘rish](https://drawsql.app/teams/gayrat-1/diagrams/marketbot)
+
 ## 📄 Litsenziya
 
 Loyiha MIT litsenziyasi asosida tarqatiladi.
