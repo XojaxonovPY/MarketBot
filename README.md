@@ -1,4 +1,4 @@
-# 🏆 Leader-Board
+# 🛍️ MarketBot
 
 ## 📌 Loyihaning qisqacha tavsifi
 
