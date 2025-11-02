@@ -13,7 +13,7 @@ from starlette.middleware import Middleware
 from starlette.middleware.sessions import SessionMiddleware
 from starlette_admin.contrib.sqla import Admin, ModelView
 from web.provider import UsernameAndPasswordProvider
-from db.model import db, User, Product, Category, Order, Channel
+from db.model import db, User, Product, Category, Order, Channel, metadata
 from utils.env_data import BotConfig
 from bot.handlers import dp
 from bot.handlers.main_handler import CustomMiddleware
@@ -39,7 +39,7 @@ admin.mount_to(app)
 
 async def init_models():
     async with db._engine.begin() as conn:
-        await conn.run_sync(db.Base.metadata.create_all)
+        await conn.run_sync(metadata.create_all)
 
 
 async def set_bot_commands(bot: Bot):
