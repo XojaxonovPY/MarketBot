@@ -47,14 +47,15 @@ async def start_bot():
 
 async def main():
     # ikkita taskni parallel ishga tushiramiz
-    server_task = asyncio.create_task(
-        uvicorn.Server(
-            uvicorn.Config(app, host="0.0.0.0", port=8000, log_level="info")
-        ).serve()
-    )
-    bot_task = asyncio.create_task(start_bot())
-
-    await asyncio.gather(server_task, bot_task)
+    # server_task = asyncio.create_task(
+    #     uvicorn.Server(
+    #         uvicorn.Config(app, host="0.0.0.0", port=8000, log_level="info")
+    #     ).serve()
+    # )
+    # bot_task = asyncio.create_task(start_bot())
+    #
+    # await asyncio.gather(server_task, bot_task)
+    await start_bot()
 
 
 if __name__ == "__main__":

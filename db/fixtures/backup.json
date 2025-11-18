@@ -1,0 +1,123 @@
+{
+    "categories": [
+        {
+            "name": "Texnika",
+            "id": 1,
+            "created_at": "2025-11-18T09:21:50",
+            "updated_at": "2025-11-18T09:21:50"
+        },
+        {
+            "name": "Oyoq kiyimlar",
+            "id": 2,
+            "created_at": "2025-11-18T09:21:50",
+            "updated_at": "2025-11-18T09:21:50"
+        },
+        {
+            "name": "O'yinchoqlar",
+            "id": 3,
+            "created_at": "2025-11-18T09:22:24",
+            "updated_at": "2025-11-18T09:23:10"
+        }
+    ],
+    "products": [
+        {
+            "name": "Nike krasofka",
+            "price": 230000.0,
+            "image_url": "AgACAgIAAxkBAAMEaRxUoUwKO172LbekbLOU8xI4ZyAAArMPaxuTn-BIMS2ZA6y649kBAAMCAAN5AAM2BA",
+            "thumbnail_url": "https://i5.walmartimages.com/seo/Men-s-Nike-Air-Force-1-07-White-Black-CT2302-100-13_249becb2-a8c0-44ee-9531-a22e6b42b8d9.596dcc1c83d0f62920917dea246e0584.jpeg",
+            "count": 100,
+            "category_id": 2,
+            "id": 1,
+            "created_at": "2025-11-18T11:16:16",
+            "updated_at": "2025-11-18T11:20:02"
+        },
+        {
+            "name": "Nike Air ZoomX",
+            "price": 235000.0,
+            "image_url": "AgACAgIAAxkBAAMEaRxUoUwKO172LbekbLOU8xI4ZyAAArMPaxuTn-BIMS2ZA6y649kBAAMCAAN5AAM2BA",
+            "thumbnail_url": "https://images.uzum.uz/d0kehpgn274j5scn8stg/original.jpg",
+            "count": 125,
+            "category_id": 2,
+            "id": 2,
+            "created_at": "2025-11-18T11:17:57",
+            "updated_at": "2025-11-18T11:17:57"
+        },
+        {
+            "name": "Nike Air Force 1 SB Dunk Low Green Apple",
+            "price": 240000.0,
+            "image_url": "AgACAgIAAxkBAAMEaRxUoUwKO172LbekbLOU8xI4ZyAAArMPaxuTn-BIMS2ZA6y649kBAAMCAAN5AAM2BA",
+            "thumbnail_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSisZ1OXVS10SEEVOTiYlEHbTUby-480-XEig&s",
+            "count": 230,
+            "category_id": 2,
+            "id": 3,
+            "created_at": "2025-11-18T11:21:26",
+            "updated_at": "2025-11-18T11:21:26"
+        },
+        {
+            "name": "Airpots pro 2",
+            "price": 150000.0,
+            "image_url": "AgACAgIAAxkBAAMGaRxW15FCal0WNMSsJTEDvW5QLa8AAt8PaxuTn-BIOy-VbSHd77kBAAMCAAN4AAM2BA",
+            "thumbnail_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRpxYJdvf6J27bbcVMlxhkO71u9LtBpjnp7g&s",
+            "count": 80,
+            "category_id": 1,
+            "id": 4,
+            "created_at": "2025-11-18T11:23:09",
+            "updated_at": "2025-11-18T11:23:09"
+        },
+        {
+            "name": "Airpots pro 3",
+            "price": 160000.0,
+            "image_url": "AgACAgIAAxkBAAMGaRxW15FCal0WNMSsJTEDvW5QLa8AAt8PaxuTn-BIOy-VbSHd77kBAAMCAAN4AAM2BA",
+            "thumbnail_url": "https://cdn0.it4profit.com/s3size/el:t/rt:fill/w:512/plain/s3://cms/product/c5/06/c5063b56e7634a6d343fa03328d12c61/250612160025667198.webp",
+            "count": 70,
+            "category_id": 1,
+            "id": 5,
+            "created_at": "2025-11-18T11:24:10",
+            "updated_at": "2025-11-18T11:24:10"
+        },
+        {
+            "name": "Airpots pro ",
+            "price": 170000.0,
+            "image_url": "AgACAgIAAxkBAAMGaRxW15FCal0WNMSsJTEDvW5QLa8AAt8PaxuTn-BIOy-VbSHd77kBAAMCAAN4AAM2BA",
+            "thumbnail_url": "https://images.macrumors.com/article-new/2018/02/airpods-4-no-case.jpg",
+            "count": 60,
+            "category_id": 1,
+            "id": 6,
+            "created_at": "2025-11-18T11:24:56",
+            "updated_at": "2025-11-18T11:24:56"
+        },
+        {
+            "name": "Mersedes gelig oyinchoq",
+            "price": 120000.0,
+            "image_url": "AgACAgIAAxkBAAMIaRxX8osfr0k8ZG8LZVbBpvHHvacAAugPaxuTn-BI4quLHHGsoWEBAAMCAAN5AAM2BA",
+            "thumbnail_url": "https://tovar.uz/images/company/444/tovar/103287/o_6481754c257a6.jpg",
+            "count": 50,
+            "category_id": 3,
+            "id": 7,
+            "created_at": "2025-11-18T11:27:50",
+            "updated_at": "2025-11-18T11:27:50"
+        },
+        {
+            "name": "Mashina o'yinchoq metall Jiguli",
+            "price": 120000.0,
+            "image_url": "AgACAgIAAxkBAAMIaRxX8osfr0k8ZG8LZVbBpvHHvacAAugPaxuTn-BI4quLHHGsoWEBAAMCAAN5AAM2BA",
+            "thumbnail_url": "https://files.glotr.uz/company/000/010/675/products/2023/06/22/2023-06-22-17-12-44-665343-11aad887b1bd3bc0ff920d96463dc9d9.webp?_=ozb9y",
+            "count": 50,
+            "category_id": 3,
+            "id": 8,
+            "created_at": "2025-11-18T11:28:51",
+            "updated_at": "2025-11-18T11:28:51"
+        },
+        {
+            "name": "Rolls Royce Cullinan",
+            "price": 120000.0,
+            "image_url": "AgACAgIAAxkBAAMIaRxX8osfr0k8ZG8LZVbBpvHHvacAAugPaxuTn-BI4quLHHGsoWEBAAMCAAN5AAM2BA",
+            "thumbnail_url": "https://assets.asaxiy.uz/product/items/desktop/013d407166ec4fa56eb1e1f8cbe183b92023052613583712592SluL0BXIWq.jpg.webp",
+            "count": 50,
+            "category_id": 3,
+            "id": 9,
+            "created_at": "2025-11-18T11:30:29",
+            "updated_at": "2025-11-18T11:30:29"
+        }
+    ]
+}

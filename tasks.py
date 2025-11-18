@@ -61,4 +61,4 @@ def dump(c):
 
 @task
 def load(c):
-    c.run("python -m db.backup")
+    c.run("python -m db.restore")

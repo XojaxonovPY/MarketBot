@@ -78,8 +78,10 @@ async def confirm_handler(message: Message, state: FSMContext):
             'user_id': user_id,
         }
         order = await Order.create(**order)
-        await Product.sub_product(product.id,order.quantity)
+        await Product.sub_product(product.id, order.quantity)
+        lang = await state.get_value('locale')
         await state.clear()
+        await state.update_data(locale=lang)
         await message.answer(text=_(f"✅ To'lo'vingiz uchun raxmat 😊 \n{order.total_price}\n{order.id}"))
 
 
@@ -104,9 +106,14 @@ async def inline_query(inline: InlineQuery):
 
 
 @main_section.message(F.via_bot)
-async def any_text(message: Message):
+async def any_text(message: Message, state: FSMContext):
     product_id = int(message.text)
     await message.delete()
     product: Product = await Product.get(Product.id, product_id)
     caption = f'Nomi:{product.name}\nNarxi:{product.price}\nSoni:{product.count}'
     await message.answer_photo(photo=product.image_url, caption=caption)
+    quantity = product.count + 1 if product.count <= 10 else 11
+    buttons = [InlineKeyboardButton(text=str(i), callback_data=f'count_{i}') for i in range(1, quantity)]
+    markup = await build_inline_buttons(buttons, [8] * (len(buttons) // 2))
+    await state.update_data(product=product)
+    await message.answer(text=_('✅ Qancha olmoqchisiz:'), reply_markup=markup)
