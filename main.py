@@ -11,7 +11,6 @@ from aiogram.utils.i18n import I18n, FSMI18nMiddleware
 
 from bot.handlers import dp
 from bot.handlers.main_handler import CustomMiddleware
-from db.model import db, metadata
 from utils.env_data import BotConfig
 from web.app import app
 
@@ -19,12 +18,6 @@ TOKEN = BotConfig.TOKEN
 
 
 # --- Starlette Admin ---
-
-
-async def init_models():
-    async with db._engine.begin() as conn:
-        await conn.run_sync(metadata.create_all)
-
 
 async def set_bot_commands(bot: Bot):
     commands = [
@@ -40,7 +33,6 @@ async def start_bot():
     dp.update.outer_middleware(FSMI18nMiddleware(i18n))
     dp.message.outer_middleware(CustomMiddleware())
     await set_bot_commands(bot)
-    await init_models()
 
     # 👇 Muhim: signal handler'ni o‘chirib qo‘yamiz
     await dp.start_polling(bot, handle_signals=False)
