@@ -1,40 +1,23 @@
 import asyncio
 import logging
 import sys
-import uvicorn
 
+import uvicorn
 from aiogram import Bot
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.types import BotCommand
 from aiogram.utils.i18n import I18n, FSMI18nMiddleware
-from starlette.applications import Starlette
-from starlette.middleware import Middleware
-from starlette.middleware.sessions import SessionMiddleware
-from starlette_admin.contrib.sqla import Admin, ModelView
-from web.provider import UsernameAndPasswordProvider
-from db.model import db, User, Product, Category, Order, Channel, metadata
-from utils.env_data import BotConfig
+
 from bot.handlers import dp
 from bot.handlers.main_handler import CustomMiddleware
+from db.model import db, metadata
+from utils.env_data import BotConfig
+from web.app import app
 
 TOKEN = BotConfig.TOKEN
 
 # --- Starlette Admin ---
-app = Starlette()
-admin = Admin(
-    db._engine,
-    title='P_29Admin',
-    base_url='/',
-    auth_provider=UsernameAndPasswordProvider(),
-    middlewares=[Middleware(SessionMiddleware, secret_key="supersecret")]
-)
-admin.add_view(ModelView(User))
-admin.add_view(ModelView(Category))
-admin.add_view(ModelView(Product))
-admin.add_view(ModelView(Order))
-admin.add_view(ModelView(Channel))
-admin.mount_to(app)
 
 
 async def init_models():

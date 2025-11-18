@@ -49,3 +49,16 @@ def down(c):
 @task
 def create(c):
     c.run("alembic init migrations")
+
+
+# ===================================backups=============================
+
+
+@task
+def dump(c):
+    c.run("python -m db.backup")
+
+
+@task
+def load(c):
+    c.run("python -m db.backup")
