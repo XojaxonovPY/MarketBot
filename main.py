@@ -17,6 +17,7 @@ from web.app import app
 
 TOKEN = BotConfig.TOKEN
 
+
 # --- Starlette Admin ---
 
 
@@ -46,6 +47,7 @@ async def start_bot():
 
 
 async def main():
+    # ikkita taskni parallel ishga tushiramiz
     server_task = asyncio.create_task(
         uvicorn.Server(
             uvicorn.Config(app, host="0.0.0.0", port=8000, log_level="info")
