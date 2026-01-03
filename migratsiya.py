@@ -1,6 +1,6 @@
 import asyncio
 
-from db.model import db, metadata
+from db.models import db, metadata
 
 
 async def init_models():

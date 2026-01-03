@@ -27,7 +27,7 @@ def update(c):
 # ===============================================admin=========================
 @task
 def admin(c):
-    c.run("uvicorn web.app:app --host localhost --port 8005")
+    c.run("uvicorn admin.app:app --host localhost --port 8005")
 
 
 # ===============================================migratsiya=========================
@@ -43,7 +43,7 @@ def upg(c):
 
 @task
 def down(c):
-    c.run("alembic downgrade head")
+    c.run("alembic downgrade base")
 
 
 @task

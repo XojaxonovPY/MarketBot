@@ -9,10 +9,10 @@ from aiogram.enums import ParseMode
 from aiogram.types import BotCommand
 from aiogram.utils.i18n import I18n, FSMI18nMiddleware
 
+from admin.app import app
 from bot.handlers import dp
 from bot.handlers.main_handler import CustomMiddleware
 from utils.env_data import BotConfig
-from web.app import app
 
 TOKEN = BotConfig.TOKEN
 
@@ -34,12 +34,10 @@ async def start_bot():
     dp.message.outer_middleware(CustomMiddleware())
     await set_bot_commands(bot)
 
-    # 👇 Muhim: signal handler'ni o‘chirib qo‘yamiz
     await dp.start_polling(bot, handle_signals=False)
 
 
 async def main():
-    # ikkita taskni parallel ishga tushiramiz
     server_task = asyncio.create_task(
         uvicorn.Server(
             uvicorn.Config(app, host="0.0.0.0", port=8000, log_level="info")

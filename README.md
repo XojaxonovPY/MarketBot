@@ -63,7 +63,7 @@ python main.py
 6. Admin panelni ishga tushirish
 
 ```bash
-uvicorn web.app:app --host localhost --port 8000
+uvicorn admin.app:app --host localhost --port 8000
 ```
 
 ## 🔧 .env konfiguratsiyasi

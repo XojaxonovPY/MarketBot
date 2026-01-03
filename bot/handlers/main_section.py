@@ -1,57 +1,58 @@
 from aiogram import F
+from aiogram import Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, InlineQuery, InlineQueryResultArticle
 from aiogram.types import InlineKeyboardButton, InputTextMessageContent
-from aiogram import Router
+from aiogram.types import InlineKeyboardMarkup, ReplyKeyboardMarkup
+from aiogram.types import Message, LabeledPrice, PreCheckoutQuery
+from aiogram.utils.i18n import gettext as _
+
 from bot.buttons.inline import build_inline_buttons
 from bot.buttons.reply import reply_button_builder
-from aiogram.utils.i18n import gettext as _
-from aiogram.types import Message, LabeledPrice, PreCheckoutQuery
-from db.model import Product, Order
+from db.models import Product, Order
 from utils.env_data import BotConfig
 
-main_section = Router()
+router = Router()
 PAYMENT_CLICK_TOKEN = BotConfig.PAYMENT_CLICK_TOKEN
 
 
-@main_section.callback_query(F.data.startswith("category_"))
+@router.callback_query(F.data.startswith("category_"))
 async def category_handler(callback: CallbackQuery):
     category_id = int(callback.data.split('_')[1])
-    products: list[Product] = await Product.gets(Product.category_id, category_id)
-    buttons = [InlineKeyboardButton(text=i.name, callback_data=f'product_{i.id}') for i in products]
-    markup = await build_inline_buttons(buttons, [2] * (len(buttons) // 2))
+    products: list[Product] = await Product.filter_(Product.category_id == category_id)
+    buttons: list[InlineKeyboardButton] = [
+        InlineKeyboardButton(text=i.name, callback_data=f'product_{i.id}')
+        for i in products
+    ]
+    markup: InlineKeyboardMarkup = await build_inline_buttons(buttons, [2] * (len(buttons) // 2))
     await callback.message.answer(text=_('✅ Mahsulotlarni tanlang:'), reply_markup=markup)
 
 
-@main_section.callback_query(F.data.startswith("product_"))
+@router.callback_query(F.data.startswith("product_"))
 async def product_handler(callback: CallbackQuery, state: FSMContext):
-    product_id = int(callback.data.split('_')[1])
-    product: Product = await Product.get(Product.id, product_id)
-    caption = f'Nomi:{product.name}\nNarxi:{product.price}\nSoni:{product.count}'
+    product_id: int = int(callback.data.split('_')[1])
+    product: Product = await Product.get(id=product_id)
+    caption: str = f'Nomi:{product.name}\nNarxi:{product.price}\nSoni:{product.count}'
     await state.update_data(product=product)
     await callback.message.answer_photo(photo=product.image_url, caption=caption)
     quantity = product.count + 1 if product.count <= 10 else 11
-    buttons = [InlineKeyboardButton(text=str(i), callback_data=f'count_{i}') for i in range(1, quantity)]
-    markup = await build_inline_buttons(buttons, [8] * (len(buttons) // 2))
+    buttons: list[InlineKeyboardButton] = [
+        InlineKeyboardButton(text=str(i), callback_data=f'count_{i}')
+        for i in range(1, quantity)
+    ]
+    markup: InlineKeyboardMarkup = await build_inline_buttons(buttons, [8] * (len(buttons) // 2))
     await callback.message.answer(text=_('✅ Qancha olmoqchisiz:'), reply_markup=markup)
 
 
-@main_section.callback_query(F.data.startswith("count_"))
+@router.callback_query(F.data.startswith("count_"))
 async def order_handler(callback: CallbackQuery, state: FSMContext):
-    quantity = int(callback.data.split('_')[1])
-    data = await state.get_data()
+    quantity: int = int(callback.data.split('_')[1])
+    data: dict = await state.get_data()
     product: Product = data.get('product')
-    markup = await reply_button_builder([_('◀️Mahsulotlarga')])
-    prices = [
-        {
-            'id': product.id,
-            'name': product.name,
-            'price': product.price,
-        }
-    ]
-    amount = int(product.price * 100)
-    total_price = amount * quantity
-    prices = [
+    markup: ReplyKeyboardMarkup = await reply_button_builder([_('◀️Mahsulotlarga')])
+    amount: int = int(product.price * 100)
+    total_price: int = amount * quantity
+    prices: list[LabeledPrice] = [
         LabeledPrice(label=product.name, amount=total_price),
     ]
     await state.update_data(total_price=total_price, quantity=quantity)
@@ -60,15 +61,15 @@ async def order_handler(callback: CallbackQuery, state: FSMContext):
                                           "UZS", prices, PAYMENT_CLICK_TOKEN)
 
 
-@main_section.pre_checkout_query()
+@router.pre_checkout_query()
 async def success_handler(pre_checkout_query: PreCheckoutQuery) -> None:
     await pre_checkout_query.answer(True)
 
 
-@main_section.message(lambda message: bool(message.successful_payment))
+@router.message(lambda message: bool(message.successful_payment))
 async def confirm_handler(message: Message, state: FSMContext):
-    user_id = message.chat.id
-    data = await state.get_data()
+    user_id: int = message.chat.id
+    data: dict = await state.get_data()
     product = data.get('product')
     if message.successful_payment:
         order = {
@@ -77,21 +78,21 @@ async def confirm_handler(message: Message, state: FSMContext):
             'total_price': data.get('total_price'),
             'user_id': user_id,
         }
-        order = await Order.create(**order)
-        await Product.sub_product(product.id, order.quantity)
-        lang = await state.get_value('locale')
+        order_obj: Order = await Order.create(**order)
+        await Product.sub_product(product.id, order_obj.quantity)
+        lang: str = await state.get_value('locale')
         await state.clear()
         await state.update_data(locale=lang)
-        await message.answer(text=_(f"✅ To'lo'vingiz uchun raxmat 😊 \n{order.total_price}\n{order.id}"))
+        await message.answer(text=_(f"✅ To'lo'vingiz uchun raxmat 😊 \n{order_obj.total_price}\n{order_obj.id}"))
 
 
 # ================================================Searching============================================
 
-@main_section.inline_query()
+@router.inline_query()
 async def inline_query(inline: InlineQuery):
-    query = inline.query.lower()
-    result = []
-    products: list[Product] = await  Product.get_all()
+    query: str = inline.query.lower()
+    result: list = []
+    products: list[Product] = await Product.all_()
     for product in products:
         if query in product.name.lower():
             i = InlineQueryResultArticle(
@@ -105,15 +106,18 @@ async def inline_query(inline: InlineQuery):
     await inline.answer(result, cache_time=5, is_personal=True)
 
 
-@main_section.message(F.via_bot)
+@router.message(F.via_bot)
 async def any_text(message: Message, state: FSMContext):
     product_id = int(message.text)
     await message.delete()
-    product: Product = await Product.get(Product.id, product_id)
-    caption = f'Nomi:{product.name}\nNarxi:{product.price}\nSoni:{product.count}'
+    product: Product = await Product.get(id=product_id)
+    caption: str = f'Nomi:{product.name}\nNarxi:{product.price}\nSoni:{product.count}'
     await message.answer_photo(photo=product.image_url, caption=caption)
-    quantity = product.count + 1 if product.count <= 10 else 11
-    buttons = [InlineKeyboardButton(text=str(i), callback_data=f'count_{i}') for i in range(1, quantity)]
-    markup = await build_inline_buttons(buttons, [8] * (len(buttons) // 2))
+    quantity: int = product.count + 1 if product.count <= 10 else 11
+    buttons: list[InlineKeyboardButton] = [
+        InlineKeyboardButton(text=str(i), callback_data=f'count_{i}')
+        for i in range(1, quantity)
+    ]
+    markup: InlineKeyboardMarkup = await build_inline_buttons(buttons, [8] * (len(buttons) // 2))
     await state.update_data(product=product)
     await message.answer(text=_('✅ Qancha olmoqchisiz:'), reply_markup=markup)

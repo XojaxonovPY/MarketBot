@@ -1,19 +1,19 @@
 # db/restore.py
-import json
 import asyncio
-from datetime import datetime, date
-from sqlalchemy import insert
-from db import db
-from db.model import Category, Product
+import json
 import sys
+from datetime import datetime, date
 
-# Konsol UTF-8 ga o'tkaziladi (Windows uchun emoji ishlashi uchun)
+from sqlalchemy import insert
+
+from db.models import Category, Product
+from db.session import AsyncSessionLocal
+
 sys.stdout.reconfigure(encoding='utf-8')
 
 
 def convert_dates(row, model):
-    """row dict ichidagi ISO datetime stringlarini asl datetime/date ga o'zgartirish"""
-    new_row = {}
+    new_row: dict = {}
     for column in model.__table__.columns:
         value = row.get(column.name)
         if value is not None:
@@ -26,30 +26,24 @@ def convert_dates(row, model):
                         try:
                             value = date.fromisoformat(value)
                         except ValueError:
-                            pass  # noto'g'ri format bo'lsa, o'zgartirmaymiz
+                            pass
         new_row[column.name] = value
     return new_row
 
 
 async def load_backup(filename="db/fixtures/backup.json"):
-    session = db._session
-
-    with open(filename, "r", encoding="utf-8") as f:
-        data = json.load(f)
-
-    models = [Category, Product]
-
-    for model in models:
-        rows = data.get(model.__tablename__, [])
-        for row in rows:
-            row = convert_dates(row, model)  # datetime/date ni tiklash
-            await session.execute(insert(model).values(**row))
-
-    await session.commit()
-
+    async with AsyncSessionLocal() as session:
+        with open(filename, "r", encoding="utf-8") as f:
+            data: dict = json.load(f)
+        models = [Category, Product]
+        for model in models:
+            rows = data.get(model.__tablename__, [])
+            for row in rows:
+                row = convert_dates(row, model)  # datetime/date ni tiklash
+                await session.execute(insert(model).values(**row))
+        await session.commit()
     print("🔥 Backup restored!")
 
 
 if __name__ == "__main__":
-    db.init()
     asyncio.run(load_backup())
